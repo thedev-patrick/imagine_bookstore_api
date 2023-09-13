@@ -52,3 +52,47 @@ DB_DATABASE=online_bookstore
 JWT_SECRET=your_jwt_secret_key
 
 ```
+2. Set up your MySQL database and run the SQL script provided in db.sql to create the necessary tables.
+
+3. Start the server:
+    `npm start`
+The API should now be running on http://localhost:3000 (or your specified port).
+
+## Usage
+
+### Authentication
+
+- Use the /auth/register endpoint to register a new user.
+- Use the /auth/login endpoint to authenticate and receive a JWT token.
+- Include the JWT token in the Authorization header for protected routes.
+
+### Browsing Books
+
+- Use the /books endpoint to list all available books.
+- Use the /books/:bookId endpoint to get details of a specific book by ID.
+
+### Managing Shopping Carts
+
+- Use the /carts/:userId endpoint to view the contents of a user's shopping cart.
+- Use the /carts/add endpoint to add a book to the user's shopping cart.
+- Use the /carts/clear/:userId endpoint to clear a user's shopping cart.
+
+### Placing Orders
+
+- Use the /orders/place-order endpoint to place an order based on the items in the user's shopping cart.
+
+## API Endpoints
+
+For detailed information on available API endpoints and request/response examples, refer to the API documentation.
+
+## Error Handling
+
+The API includes error handling for various scenarios, providing meaningful error messages and appropriate HTTP status codes.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow the Contributing Guidelines.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
