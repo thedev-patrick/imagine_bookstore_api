@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/order');
 const Cart = require('../models/cart');
+const verifyToken = require('../middleware/verifyToken'); // Import your JWT verification middleware
+
+// Apply the verifyToken middleware to these routes
+router.use(verifyToken);
 
 router.post('/place-order', (req, res) => {
   const { userId } = req.body;

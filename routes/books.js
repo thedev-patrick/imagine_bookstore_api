@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/book');
+const verifyToken = require('../routes/middleware/verifyToken');
+
+router.use(verifyToken);
 
 router.get('/', (req, res) => {
   // Get all books

@@ -24,14 +24,6 @@ class User {
       callback(null, result);
     });
   }
-  static create(user, callback) {
-    db.query('INSERT INTO users SET ?', user, (err, result) => {
-      if (err) {
-        return callback(err, null);
-      }
-      callback(null, result);
-    });
-  }
 }
 
 module.exports = User;
