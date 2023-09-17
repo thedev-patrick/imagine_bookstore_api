@@ -8,21 +8,37 @@ class Book {
     this.price = price;
     this.stock_quantity = stock_quantity;
   }
-  static create(bookData, callback) {
-    
-    const { title, author, genre, price, stock_quantity } = bookData;
-
-    // Insert the new book into the 'books' table
-    const query = 'INSERT INTO books (title, author, genre, price, stock_quantity) VALUES ($1, $2, $3, $4, $5)';
-    const values = [title, author, genre, price, stock_quantity];
-
-    pool.query(query, values, (err, result) => {
-      if (err) {
-        return callback(err, null);
+  static createBook(bookData, callback) {
+    const { title, author } = bookData;
+  
+    // Check if a book with the same title and author already exists
+    const checkQuery = 'SELECT * FROM books WHERE title = $1 AND author = $2';
+    const checkValues = [title, author];
+  
+    pool.query(checkQuery, checkValues, (checkErr, checkResult) => {
+      if (checkErr) {
+        return callback(checkErr, null);
       }
-      callback(null, result); // Return the result of the INSERT query
+  
+      if (checkResult.rows.length > 0) {
+        // A book with the same title and author already exists
+        const error = new Error('Book with the same title and author already exists');
+        return callback(error, null);
+      }
+  
+      // No duplicate books found, proceed with book creation
+      const insertQuery = 'INSERT INTO books (title, author, genre, price, stock_quantity) VALUES ($1, $2, $3, $4, $5)';
+      const insertValues = [title, author, bookData.genre, bookData.price, bookData.stock_quantity];
+  
+      pool.query(insertQuery, insertValues, (err, result) => {
+        if (err) {
+          return callback(err, null);
+        }
+        callback(null, result); // Return the result of the INSERT query
+      });
     });
   }
+  
   
   static getAll(callback) {
     pool.query('SELECT * FROM books', (err, results) => {

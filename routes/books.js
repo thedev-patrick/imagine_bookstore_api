@@ -33,10 +33,14 @@ router.post('/', (req, res) => {
   // Create a new book object
   const newBook = new Book(title, author, genre, price, stock_quantity);
 
-  // Use the createBook method to add the new book to the database
-  Book.create(newBook, (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error creating book' });
+  // Check if a book with the same title and author already exists
+  Book.createBook(newBook, (createErr, result) => {
+    if (createErr) {
+      if (createErr.message === 'Book with the same title and author already exists') {
+        return res.status(400).json({ error: 'Book with the same title and author already exists' });
+      } else {
+        return res.status(500).json({ error: 'Error creating book' });
+      }
     }
     res.status(201).json({ message: 'Book created successfully' });
   });
