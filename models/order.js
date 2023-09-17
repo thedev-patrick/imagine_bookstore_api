@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const pool = require('../config/db');
 
 class Order {
   constructor(userId) {
@@ -6,7 +6,7 @@ class Order {
   }
 
   static placeOrder(order, callback) {
-    db.query('INSERT INTO orders SET ?', order, (err, result) => {
+    pool.query('INSERT INTO orders (user_id) VALUES ($1)', [order.user_id], (err, result) => {
       if (err) {
         return callback(err, null);
       }

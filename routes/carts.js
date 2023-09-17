@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Cart = require('../models/cart');
-const verifyToken = require('../middleware/verifyToken'); // Import your JWT verification middleware
+const verifyToken = require('../routes/middleware/verifyToken'); // Import your JWT verification middleware
 
 // Apply the verifyToken middleware to these routes
 router.use(verifyToken);

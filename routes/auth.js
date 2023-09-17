@@ -18,11 +18,15 @@ router.post('/register', (req, res) => {
 
     // Store user data in the database
     const newUser = new User(username, hash, email);
-    console.log(hash);
-    User.create(newUser, (err, result) => {
-      if (err) {
-        return res.status(400).json({ error: 'User registration failed' });
+    User.create(newUser, (createErr, result) => {
+      if (createErr) {
+        if (createErr.message === 'User with the same username or email already exists') {
+          return res.status(400).json({ error: 'User with the same username or email already exists' });
+        } else {
+          return res.status(400).json({ error: 'User registration failed' });
+        }
       }
+
       res.status(201).json({ message: 'User registered successfully' });
     });
   });
